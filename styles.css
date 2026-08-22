@@ -1,0 +1,40 @@
+:root { --paper:#f1ece2; --ivory:#faf7f0; --ink:#1c211d; --muted:#716e66; --line:#d9d1c3; --accent:#9c542f; }
+* { box-sizing:border-box; }
+html { scroll-behavior:smooth; }
+body { margin:0; background:var(--paper); color:var(--ink); font-family:Arial,Helvetica,sans-serif; }
+a { color:inherit; }
+.hero { min-height:72vh; padding:28px clamp(22px,5vw,78px) 34px; display:grid; grid-template-rows:auto 1fr auto; background:radial-gradient(circle at 85% 18%,rgba(207,164,117,.42),transparent 27%),linear-gradient(135deg,#202720 0%,#293027 58%,#753d29 100%); color:#fffaf0; }
+.masthead,.hero-foot { display:flex; justify-content:space-between; align-items:center; gap:24px; }
+.masthead { padding-bottom:22px; border-bottom:1px solid rgba(255,255,255,.22); }
+.masthead a { font-size:13px; text-decoration:none; border-bottom:1px solid; padding-bottom:3px; }
+.wordmark { font-family:Georgia,serif; font-size:20px; }
+.hero-copy { align-self:center; max-width:930px; padding:70px 0; }
+.kicker { margin:0 0 14px; text-transform:uppercase; letter-spacing:.18em; font-size:11px; font-weight:700; }
+h1,h2,h3 { font-family:Georgia,"Times New Roman",serif; font-weight:400; }
+h1 { margin:0; font-size:clamp(56px,10vw,132px); line-height:.88; letter-spacing:-.055em; }
+.lede { max-width:610px; margin:30px 0 0; color:#ddd6ca; font-size:clamp(17px,2vw,22px); line-height:1.55; }
+.hero-foot { color:#d9d3c8; text-transform:uppercase; letter-spacing:.13em; font-size:10px; }
+.directory { max-width:1480px; margin:0 auto; padding:90px clamp(18px,4vw,56px) 110px; }
+.directory-heading { display:flex; justify-content:space-between; align-items:end; gap:30px; margin-bottom:34px; }
+.directory h2 { margin:4px 0 0; font-size:clamp(42px,6vw,76px); letter-spacing:-.04em; }
+.search { width:min(360px,100%); }
+.search span { display:block; margin-bottom:8px; color:var(--muted); font-size:11px; text-transform:uppercase; letter-spacing:.12em; }
+.search input { width:100%; border:0; border-bottom:1px solid #9c9487; padding:11px 0; background:transparent; color:var(--ink); font-size:16px; outline:none; }
+.search input:focus { border-color:var(--accent); }
+.people-grid { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); border-top:1px solid var(--line); border-left:1px solid var(--line); }
+.person-card { min-width:0; padding:14px; display:grid; grid-template-columns:120px minmax(0,1fr); gap:20px; background:var(--ivory); border-right:1px solid var(--line); border-bottom:1px solid var(--line); }
+.monogram { min-height:145px; padding:12px; display:flex; flex-direction:column; justify-content:space-between; color:white; }
+.monogram span { align-self:center; margin:auto; font-family:Georgia,serif; font-size:39px; }
+.monogram small { font-size:10px; letter-spacing:.12em; }
+.clay { background:#9b5133; } .sage { background:#7b8067; } .amber { background:#ae762d; } .rose { background:#996d70; } .ink { background:#343b37; } .moss { background:#59644d; }
+.person-details { min-width:0; padding:9px 4px 6px 0; display:flex; flex-direction:column; align-items:flex-start; }
+.person-details h3 { margin:0; font-size:27px; line-height:1.1; }
+.person-details p { margin:8px 0; color:var(--muted); font-size:13px; }
+.album-links { width:100%; margin-top:auto; }
+.album-links a { display:flex; justify-content:space-between; gap:12px; padding:10px 0; border-top:1px solid var(--line); color:var(--accent); font-size:13px; text-decoration:none; }
+.album-links a:hover { color:var(--ink); }
+.pending { margin-top:auto; color:#948f86; font-size:11px; line-height:1.4; }
+.empty { padding:60px 0; color:var(--muted); text-align:center; }
+footer { padding:28px clamp(22px,5vw,78px); display:flex; justify-content:space-between; gap:20px; background:#1e241f; color:#cfc8bd; font-size:11px; letter-spacing:.12em; text-transform:uppercase; }
+@media (max-width:980px) { .people-grid { grid-template-columns:repeat(2,minmax(0,1fr)); } }
+@media (max-width:680px) { .hero { min-height:640px; } .directory { padding-top:65px; } .directory-heading { align-items:stretch; flex-direction:column; } .search { width:100%; } .people-grid { grid-template-columns:1fr; } .person-card { grid-template-columns:105px minmax(0,1fr); } .monogram { min-height:130px; } footer { align-items:flex-start; flex-direction:column; } }
