@@ -1,81 +1,149 @@
-const tones = ["clay", "sage", "amber", "rose", "ink", "moss"];
-let gallery = { event: {}, people: [] };
+let gallery = { people: [] };
+let activeSuggestion = -1;
 
-function initials(name) {
-  return name.split(/\s+/).filter(Boolean).slice(0, 2).map((part) => part[0]?.toUpperCase()).join("");
-}
+const search = document.querySelector("#name-search");
+const suggestions = document.querySelector("#suggestions");
+const grid = document.querySelector("#folder-grid");
+const empty = document.querySelector("#empty");
 
 function validAlbumUrl(value) {
   try {
     const url = new URL(value);
-    return url.protocol === "https:" && (url.hostname === "icloud.com" || url.hostname.endsWith(".icloud.com"));
+    return url.protocol === "https:" &&
+      (url.hostname === "icloud.com" || url.hostname.endsWith(".icloud.com"));
   } catch {
     return false;
   }
 }
 
-function element(tag, className, text) {
-  const node = document.createElement(tag);
-  if (className) node.className = className;
-  if (text !== undefined) node.textContent = text;
-  return node;
+function node(tag, className, text) {
+  const element = document.createElement(tag);
+  if (className) element.className = className;
+  if (text !== undefined) element.textContent = text;
+  return element;
 }
 
-function render(query = "") {
+function matchesFor(query) {
   const needle = query.trim().toLowerCase();
-  const people = gallery.people.filter((person) => person.name.toLowerCase().includes(needle));
-  const grid = document.querySelector("#people-grid");
-  grid.replaceChildren();
-
-  people.forEach((person, index) => {
-    const card = element("article", "person-card");
-    const monogram = element("div", `monogram ${tones[index % tones.length]}`);
-    monogram.append(element("span", "", initials(person.name)), element("small", "", String(index + 1).padStart(2, "0")));
-    const details = element("div", "person-details");
-    details.append(element("h3", "", person.name), element("p", "", `${Number(person.photoCount).toLocaleString()} photographs`));
-
-    const links = person.albumLinks.filter((link) => validAlbumUrl(link.url));
-    if (links.length) {
-      const linkBox = element("div", "album-links");
-      links.forEach((link) => {
-        const anchor = element("a", "", link.label || "Open iCloud album");
-        anchor.href = link.url;
-        anchor.target = "_blank";
-        anchor.rel = "noreferrer";
-        anchor.append(element("span", "", "↗"));
-        linkBox.append(anchor);
-      });
-      details.append(linkBox);
-    } else {
-      details.append(element("span", "pending", "iCloud album being prepared"));
-    }
-    card.append(monogram, details);
-    grid.append(card);
-  });
-
-  const empty = document.querySelector("#empty");
-  empty.hidden = people.length > 0;
-  empty.textContent = gallery.people.length
-    ? "No matching person was found."
-    : "The wedding collection is being prepared. Please check back soon.";
+  return gallery.people.filter((person) => person.name.toLowerCase().includes(needle));
 }
+
+function folderCard(person) {
+  const links = person.albumLinks.filter((link) => validAlbumUrl(link.url));
+  const card = node("article", `folder${links.length ? "" : " folder-pending"}`);
+  const shape = node("div", "folder-shape");
+  shape.setAttribute("aria-hidden", "true");
+  card.append(shape, node("h2", "", person.name));
+
+  if (links.length === 1) {
+    const link = node("a", "folder-open", "Open folder");
+    link.href = links[0].url;
+    link.target = "_blank";
+    link.rel = "noreferrer";
+    link.setAttribute("aria-label", `Open ${person.name}'s photo folder`);
+    card.append(link);
+  } else if (links.length > 1) {
+    const parts = node("div", "folder-parts");
+    links.forEach((album, index) => {
+      const link = node("a", "", album.label || `Part ${index + 1}`);
+      link.href = album.url;
+      link.target = "_blank";
+      link.rel = "noreferrer";
+      parts.append(link);
+    });
+    card.append(parts);
+  } else {
+    card.append(node("span", "folder-status", "Coming soon"));
+  }
+  return card;
+}
+
+function renderFolders(query = "") {
+  const matches = matchesFor(query);
+  grid.replaceChildren(...matches.map(folderCard));
+  empty.hidden = matches.length > 0;
+  empty.textContent = gallery.people.length
+    ? "No folder found. Try another name."
+    : "Folders will appear here once the photos are ready.";
+}
+
+function closeSuggestions() {
+  suggestions.hidden = true;
+  suggestions.replaceChildren();
+  search.setAttribute("aria-expanded", "false");
+  search.removeAttribute("aria-activedescendant");
+  activeSuggestion = -1;
+}
+
+function chooseSuggestion(name) {
+  search.value = name;
+  renderFolders(name);
+  closeSuggestions();
+  search.focus();
+}
+
+function renderSuggestions(query) {
+  const names = query.trim() ? matchesFor(query).slice(0, 8).map((person) => person.name) : [];
+  if (!names.length) {
+    closeSuggestions();
+    return;
+  }
+  suggestions.replaceChildren(...names.map((name, index) => {
+    const item = node("li", "");
+    item.setAttribute("role", "option");
+    item.id = `suggestion-${index}`;
+    const button = node("button", "", name);
+    button.type = "button";
+    button.addEventListener("mousedown", (event) => event.preventDefault());
+    button.addEventListener("click", () => chooseSuggestion(name));
+    item.append(button);
+    return item;
+  }));
+  suggestions.hidden = false;
+  search.setAttribute("aria-expanded", "true");
+  activeSuggestion = -1;
+}
+
+function moveSuggestion(direction) {
+  const options = [...suggestions.querySelectorAll("li")];
+  if (!options.length) return;
+  activeSuggestion = (activeSuggestion + direction + options.length) % options.length;
+  options.forEach((option, index) => option.classList.toggle("active", index === activeSuggestion));
+  search.setAttribute("aria-activedescendant", options[activeSuggestion].id);
+}
+
+search.addEventListener("input", () => {
+  renderFolders(search.value);
+  renderSuggestions(search.value);
+});
+search.addEventListener("focus", () => renderSuggestions(search.value));
+search.addEventListener("keydown", (event) => {
+  if (event.key === "ArrowDown") {
+    event.preventDefault();
+    moveSuggestion(1);
+  } else if (event.key === "ArrowUp") {
+    event.preventDefault();
+    moveSuggestion(-1);
+  } else if (event.key === "Enter" && activeSuggestion >= 0) {
+    event.preventDefault();
+    chooseSuggestion(suggestions.children[activeSuggestion].textContent);
+  } else if (event.key === "Escape") {
+    closeSuggestions();
+  }
+});
+document.addEventListener("click", (event) => {
+  if (!event.target.closest(".search-box")) closeSuggestions();
+});
 
 async function start() {
   try {
     const response = await fetch("gallery.json", { cache: "no-store" });
-    if (!response.ok) throw new Error("Gallery data is unavailable");
+    if (!response.ok) throw new Error();
     gallery = await response.json();
-    document.querySelector("#event-title").textContent = gallery.event.title;
-    document.querySelector("#event-subtitle").textContent = gallery.event.subtitle;
-    document.querySelector("#event-location").textContent = gallery.event.location;
-    document.querySelector("#people-count").textContent = gallery.people.length
-      ? `${gallery.people.length} featured people`
-      : "Collection in preparation";
-    render();
+    renderFolders();
   } catch {
-    document.querySelector("#empty").textContent = "The collection is temporarily unavailable.";
+    empty.textContent = "Folders are temporarily unavailable.";
   }
 }
 
-document.querySelector("#search").addEventListener("input", (event) => render(event.target.value));
 start();

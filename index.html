@@ -3,48 +3,25 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="Find the people and moments that made the wedding day unforgettable.">
+    <meta name="description" content="Find your wedding photo folder.">
     <meta name="robots" content="noindex, nofollow">
-    <title>The Wedding Collection</title>
+    <title>Wedding Photos</title>
     <link rel="stylesheet" href="styles.css">
     <script src="app.js" defer></script>
   </head>
   <body>
-    <main>
-      <header class="hero">
-        <nav class="masthead" aria-label="Wedding gallery">
-          <span class="wordmark">The Wedding Collection</span>
-          <a href="#people">Browse people</a>
-        </nav>
-        <div class="hero-copy">
-          <p class="kicker">A day remembered through its people</p>
-          <h1 id="event-title">Together, all at once.</h1>
-          <p class="lede" id="event-subtitle"></p>
-        </div>
-        <div class="hero-foot">
-          <span id="people-count">Collection in preparation</span>
-          <span id="event-location"></span>
-        </div>
-      </header>
-
-      <section class="directory" id="people">
-        <div class="directory-heading">
-          <div>
-            <p class="kicker">People at the heart of it</p>
-            <h2>Find your moments</h2>
-          </div>
-          <label class="search">
-            <span>Search by name</span>
-            <input id="search" type="search" placeholder="Type a name…" autocomplete="off">
-          </label>
-        </div>
-        <div class="people-grid" id="people-grid"></div>
-        <p class="empty" id="empty">The wedding collection is being prepared. Please check back soon.</p>
+    <main class="shell">
+      <h1>Wedding photos</h1>
+      <div class="search-box">
+        <label for="name-search">Find your folder</label>
+        <input id="name-search" type="search" placeholder="Type your name" autocomplete="off"
+          role="combobox" aria-autocomplete="list" aria-controls="suggestions" aria-expanded="false">
+        <ul id="suggestions" class="suggestions" role="listbox" hidden></ul>
+      </div>
+      <section aria-label="Photo folders">
+        <div id="folder-grid" class="folder-grid"></div>
+        <p id="empty" class="empty">Folders will appear here once the photos are ready.</p>
       </section>
-      <footer>
-        <span>Photographs hosted by iCloud</span>
-        <span>Made for family and friends</span>
-      </footer>
     </main>
   </body>
 </html>
