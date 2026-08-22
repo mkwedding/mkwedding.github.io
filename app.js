@@ -137,7 +137,7 @@ document.addEventListener("click", (event) => {
 
 async function start() {
   try {
-    const response = await fetch("gallery.json", { cache: "no-store" });
+    const response = await fetch(`gallery.json?v=${Date.now()}`, { cache: "no-store" });
     if (!response.ok) throw new Error();
     gallery = await response.json();
     renderFolders();
