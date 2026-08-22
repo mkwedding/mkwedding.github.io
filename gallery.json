@@ -4,6 +4,18 @@
     "subtitle": "Thousands of photographs, gathered into a simpler way to find the people and moments you came for.",
     "location": "Aotearoa, New Zealand"
   },
-  "people": [],
-  "generatedAt": null
+  "people": [
+    {
+      "id": "folder-01",
+      "name": "MK 0803",
+      "photoCount": 0,
+      "albumLinks": [
+        {
+          "label": "Open folder",
+          "url": "https://www.icloud.com/iclouddrive/00dRLuv3_JKOIq0Ia6bu1NbYA#MK_0803"
+        }
+      ]
+    }
+  ],
+  "generatedAt": "2026-08-22T04:00:00Z"
 }
