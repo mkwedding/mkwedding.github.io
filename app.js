@@ -9,8 +9,9 @@ const empty = document.querySelector("#empty");
 function validAlbumUrl(value) {
   try {
     const url = new URL(value);
+    const allowed = ["icloud.com", "1drv.ms", "onedrive.live.com", "onedrive.com", "sharepoint.com"];
     return url.protocol === "https:" &&
-      (url.hostname === "icloud.com" || url.hostname.endsWith(".icloud.com"));
+      allowed.some((host) => url.hostname === host || url.hostname.endsWith(`.${host}`));
   } catch {
     return false;
   }
