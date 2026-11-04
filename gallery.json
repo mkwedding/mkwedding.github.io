@@ -6,6 +6,17 @@
   },
   "events": [
     {
+      "id": "simant",
+      "name": "Simant Poojan",
+      "albumLinks": [
+        {
+          "label": "View photos",
+          "url": "https://1drv.ms/f/c/1622f99fb006d1af/IgC5JXGh2BJ2RZTlnGqrrUOAAZOMRnjiiK6-D-7_JmUkXKk?e=lnvclU"
+        }
+      ],
+      "photos": "photos/simant/index.json"
+    },
+    {
       "id": "sangeet",
       "name": "Sangeet",
       "albumLinks": [
@@ -15,7 +26,18 @@
         }
       ],
       "photos": "photos/sangeet/index.json"
+    },
+    {
+      "id": "wedding",
+      "name": "Wedding",
+      "albumLinks": [
+        {
+          "label": "View photos",
+          "url": "https://1drv.ms/f/c/1622f99fb006d1af/IgDo6Es3HwfjQ7QoAy62YtYRAUrMMNPKUIEiTmngSjLhLC0?e=7mtwLU"
+        }
+      ],
+      "photos": "photos/wedding/index.json"
     }
   ],
-  "generatedAt": "2026-11-04T03:30:00Z"
+  "generatedAt": "2026-11-04T09:00:00Z"
 }
