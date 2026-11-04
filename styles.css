@@ -1,6 +1,6 @@
 :root {
-  /* Replace the gradient with url("wallpaper.jpg") when the wallpaper is ready. */
-  --wallpaper-image: linear-gradient(135deg, #33443b, #7d4a36);
+  --wallpaper-image: url("wallpaper.jpg");
+  --wallpaper-opacity: .4;
   --paper: rgba(255, 255, 255, .94);
   --ink: #181a18;
   --muted: #666a65;
@@ -8,7 +8,8 @@
 }
 
 * { box-sizing: border-box; }
-body { min-height: 100vh; margin: 0; color: var(--ink); font-family: Arial, Helvetica, sans-serif; background-image: linear-gradient(rgba(16,20,17,.58), rgba(16,20,17,.58)), var(--wallpaper-image); background-position: center; background-size: cover; background-attachment: fixed; }
+body { min-height: 100vh; margin: 0; color: var(--ink); font-family: Arial, Helvetica, sans-serif; background: #181a18; }
+body::before { content: ""; position: fixed; inset: 0; z-index: -1; background-image: var(--wallpaper-image); background-position: center; background-size: cover; opacity: var(--wallpaper-opacity); pointer-events: none; }
 .shell { width: min(1050px, calc(100% - 32px)); min-height: 100vh; margin: 0 auto; padding: clamp(48px,9vh,100px) 0; }
 h1 { margin: 0 0 28px; color: white; font-size: clamp(36px,7vw,68px); letter-spacing: -.04em; }
 .search-box { position: relative; z-index: 2; max-width: 620px; margin-bottom: 42px; }
