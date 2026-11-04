@@ -31,21 +31,23 @@ function albumLink(url, text, label) {
 }
 
 function eventRow(person) {
-  const links = person.albumLinks.filter((link) => validAlbumUrl(link.url));
-  const row = node("li", `album${links.length === 1 ? " album-single" : ""}`);
+  const links = (person.albumLinks || []).filter((link) => validAlbumUrl(link.url));
+  const row = node("li", "album album-single");
   row.append(node("span", "album-name", person.name));
-
-  if (links.length) {
-    const wrap = node("span", "album-links");
-    if (links.length === 1) {
-      wrap.append(albumLink(links[0].url, "View photos", `View photos: ${person.name}`));
-    } else {
-      links.forEach((album, index) => wrap.append(albumLink(album.url, album.label || `Part ${index + 1}`)));
-    }
-    row.append(wrap);
+  const wrap = node("span", "album-links");
+  if (person.photos) {
+    const a = node("a", "", "View photos");
+    a.href = `event.html?e=${encodeURIComponent(person.id)}`;
+    a.setAttribute("aria-label", `View photos: ${person.name}`);
+    wrap.append(a);
+  } else if (links.length) {
+    wrap.append(albumLink(links[0].url, "View photos", `View photos: ${person.name}`));
   } else {
+    row.classList.remove("album-single");
     row.append(node("span", "album-status", "Coming soon"));
+    return row;
   }
+  row.append(wrap);
   return row;
 }
 
