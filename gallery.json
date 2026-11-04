@@ -14,7 +14,14 @@
           "url": "https://1drv.ms/f/c/1622f99fb006d1af/IgC5JXGh2BJ2RZTlnGqrrUOAAZOMRnjiiK6-D-7_JmUkXKk?e=lnvclU"
         }
       ],
-      "photos": "photos/simant/index.json"
+      "photos": "photos/simant/index.json",
+      "covers": [
+        "photos/covers/simant-PSG08806.jpg",
+        "photos/covers/simant-PSG08655.jpg",
+        "photos/covers/simant-ART08720.jpg",
+        "photos/covers/simant-PSG08857.jpg",
+        "photos/covers/simant-PSG08598.jpg"
+      ]
     },
     {
       "id": "sangeet",
@@ -25,7 +32,14 @@
           "url": "https://1drv.ms/f/c/1622f99fb006d1af/IgA5NsKSlZofT7D8a9R-JWYSAdMpqzBqJV3GwLTNf2Zu9b4?e=pxSjUG"
         }
       ],
-      "photos": "photos/sangeet/index.json"
+      "photos": "photos/sangeet/index.json",
+      "covers": [
+        "photos/covers/sangeet-ART09544.jpg",
+        "photos/covers/sangeet-PSG09631.jpg",
+        "photos/covers/sangeet-ART09156.jpg",
+        "photos/covers/sangeet-ART09025.jpg",
+        "photos/covers/sangeet-ART09364.jpg"
+      ]
     },
     {
       "id": "wedding",
@@ -36,7 +50,14 @@
           "url": "https://1drv.ms/f/c/1622f99fb006d1af/IgDo6Es3HwfjQ7QoAy62YtYRAUrMMNPKUIEiTmngSjLhLC0?e=7mtwLU"
         }
       ],
-      "photos": "photos/wedding/index.json"
+      "photos": "photos/wedding/index.json",
+      "covers": [
+        "photos/covers/wedding-PSG01183.jpg",
+        "photos/covers/wedding-PSG01053.jpg",
+        "photos/covers/wedding-YA3_1166.jpg",
+        "photos/covers/wedding-PSG01524.jpg",
+        "photos/covers/wedding-PSG01092.jpg"
+      ]
     }
   ],
   "generatedAt": "2026-11-04T09:00:00Z"
