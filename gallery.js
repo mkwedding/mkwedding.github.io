@@ -135,7 +135,7 @@ async function start() {
       showStatus("Go back to all events and choose one from the list.");
       return;
     }
-    document.title = `${ev.name} | Wedding Photos`;
+    document.title = `${ev.name} | Kanchan and Mayuresh Wedding Photos`;
     document.querySelector("#event-title").textContent = ev.name;
 
     const link = (ev.albumLinks || [])[0];
