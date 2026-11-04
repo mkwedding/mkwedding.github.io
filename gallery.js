@@ -138,8 +138,9 @@ async function start() {
     document.title = `${ev.name} | Kanchan and Mayuresh Wedding Photos`;
     document.querySelector("#event-title").textContent = ev.name;
 
+    // OneDrive originals link is kept in gallery.json but hidden on the site.
     const link = (ev.albumLinks || [])[0];
-    if (link && link.url) {
+    if (gallery.showOriginals && link && link.url) {
       const a = document.querySelector("#originals");
       a.href = link.url;
       a.hidden = false;
