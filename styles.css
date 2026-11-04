@@ -69,6 +69,20 @@ h1 {
   text-shadow: 0 2px 24px rgba(40, 16, 4, .6);
 }
 
+.intro-sub {
+  margin: 12px 0 0;
+  color: var(--saffron);
+  font-size: 15px;
+  font-weight: 500;
+  letter-spacing: .18em;
+  text-transform: uppercase;
+}
+/* Keep the names on one line on wider screens */
+@media (min-width: 760px) {
+  .intro { margin-left: -200px; margin-right: -200px; }
+  .intro h1 { white-space: nowrap; }
+}
+
 /* ---------- Album list ---------- */
 .albums { margin: 0; padding: 0; list-style: none; }
 .album {
