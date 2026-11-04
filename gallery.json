@@ -4,6 +4,17 @@
     "subtitle": "Thousands of photographs, gathered into a simpler way to find the people and moments you came for.",
     "location": "Aotearoa, New Zealand"
   },
-  "events": [],
-  "generatedAt": "2026-11-04T01:35:00Z"
+  "events": [
+    {
+      "id": "sangeet",
+      "name": "Sangeet",
+      "albumLinks": [
+        {
+          "label": "View photos",
+          "url": "https://1drv.ms/f/c/1622f99fb006d1af/IgA5NsKSlZofT7D8a9R-JWYSAdMpqzBqJV3GwLTNf2Zu9b4?e=pxSjUG"
+        }
+      ]
+    }
+  ],
+  "generatedAt": "2026-11-04T02:15:00Z"
 }
