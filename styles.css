@@ -2,17 +2,15 @@
   --wallpaper-image: url("wallpaper.jpg");
   --wallpaper-opacity: .4;
 
-  /* Palette taken from the rangoli */
+  /* Palette taken from the rangoli photo */
   --aubergine: #2a1636;   /* purple powder: page base */
   --aubergine-deep: #1c0e25;
   --marigold: #f6b21b;    /* yellow marigold: accents, focus */
   --saffron: #ec7a1c;     /* orange marigold */
   --jasmine: #fbf3e2;     /* white flowers: text */
-  --kumkum: #c2245f;      /* pink petals: hover */
-  --leaf: #5f7d2c;        /* mango leaf */
 
   --text-soft: rgba(251, 243, 226, .74);
-  --display: "Rozha One", Georgia, serif;
+  --display: "Instrument Serif", Georgia, serif;
   --body: "Hind", "Segoe UI", Arial, sans-serif;
 }
 
@@ -54,49 +52,22 @@ body::after {
   clip: rect(0 0 0 0); white-space: nowrap;
 }
 
-/* ---------- Toran (marigold garland) ---------- */
-.toran {
-  position: absolute;
-  top: 0; left: 0; right: 0;
-  height: 190px;
-  overflow: hidden;
-  pointer-events: none;
-}
-.toran svg { display: block; width: 100%; height: 100%; }
-.toran .strand { transform-box: fill-box; transform-origin: 50% 0; }
-@media (prefers-reduced-motion: no-preference) {
-  .toran .strand { animation: sway 2.6s cubic-bezier(.3, .7, .3, 1) both; animation-delay: var(--d, 0s); }
-}
-@keyframes sway {
-  0%   { transform: rotate(var(--r, 5deg)); }
-  35%  { transform: rotate(calc(var(--r, 5deg) * -.55)); }
-  65%  { transform: rotate(calc(var(--r, 5deg) * .25)); }
-  100% { transform: rotate(0); }
-}
-
 /* ---------- Layout ---------- */
 .shell {
   position: relative;
   width: min(640px, calc(100% - 32px));
   margin: 0 auto;
-  padding: 210px 0 96px;
+  padding: clamp(96px, 22vh, 200px) 0 96px;
 }
 
 .intro { text-align: center; margin-bottom: 40px; }
-.blessing {
-  margin: 0 0 6px;
-  color: var(--marigold);
-  font-family: var(--display);
-  font-size: 26px;
-  line-height: 1.3;
-}
 h1 {
   margin: 0;
   font-family: var(--display);
   font-weight: 400;
-  font-size: clamp(46px, 10vw, 84px);
+  font-size: clamp(54px, 12vw, 96px);
   line-height: 1;
-  letter-spacing: -.01em;
+  letter-spacing: -.015em;
   text-shadow: 0 2px 24px rgba(28, 14, 37, .6);
 }
 .lede {
@@ -171,42 +142,31 @@ h1 {
   position: relative;
   display: flex;
   align-items: baseline;
-  gap: 14px;
-  padding: 16px 2px;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 18px 2px;
+  border-top: 1px solid rgba(251, 243, 226, .2);
 }
+.album:last-child { border-bottom: 1px solid rgba(251, 243, 226, .2); }
 .album-name {
   font-family: var(--display);
-  font-size: 27px;
-  line-height: 1.2;
+  font-size: 30px;
+  line-height: 1.15;
   overflow-wrap: anywhere;
-}
-/* Dotted leader, like a string of tiny marigolds */
-.album-leader {
-  flex: 1;
-  min-width: 24px;
-  height: 4px;
-  align-self: center;
-  margin-top: 6px;
-  background-image: radial-gradient(circle, var(--marigold) 1.6px, transparent 2px);
-  background-size: 10px 4px;
-  background-repeat: repeat-x;
-  background-position: left center;
-  opacity: .7;
 }
 .album-links { display: flex; gap: 16px; flex-shrink: 0; }
 .album-links a, .album-status {
-  color: var(--marigold);
-  font-weight: 600;
+  color: var(--jasmine);
+  font-weight: 500;
   font-size: 15px;
   text-decoration: none;
   white-space: nowrap;
 }
 .album-status { color: var(--text-soft); font-weight: 500; }
-.album-links a:hover { color: var(--jasmine); }
+.album-links a:hover { color: var(--marigold); }
 /* Single-link albums: the whole row is the link */
 .album-single a::after { content: ""; position: absolute; inset: 0; }
 .album-single:hover .album-name { color: var(--marigold); }
-.album-single:hover .album-leader { opacity: 1; }
 .album a:focus-visible { outline: none; }
 .album:has(a:focus-visible) { outline: 2px solid var(--marigold); outline-offset: 2px; border-radius: 6px; }
 
@@ -219,11 +179,9 @@ h1 {
 .empty[hidden] { display: none; }
 
 @media (max-width: 620px) {
-  .toran { height: 130px; }
-  .shell { padding-top: 150px; }
-  .blessing { font-size: 22px; }
+  .shell { padding-top: 96px; }
   .lede { font-size: 16px; }
   .search-box { margin-bottom: 40px; }
   .album { padding: 13px 0; gap: 10px; }
-  .album-name { font-size: 23px; }
+  .album-name { font-size: 26px; }
 }

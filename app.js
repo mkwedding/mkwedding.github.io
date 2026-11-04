@@ -41,9 +41,7 @@ function albumLink(url, text, label) {
 function folderCard(person) {
   const links = person.albumLinks.filter((link) => validAlbumUrl(link.url));
   const row = node("li", `album${links.length === 1 ? " album-single" : ""}`);
-  const leader = node("span", "album-leader");
-  leader.setAttribute("aria-hidden", "true");
-  row.append(node("span", "album-name", person.name), leader);
+  row.append(node("span", "album-name", person.name));
 
   if (links.length) {
     const wrap = node("span", "album-links");
@@ -149,77 +147,3 @@ async function start() {
 
 start();
 
-/* ---------- Toran: a marigold garland hung across the top ---------- */
-const SVG = "http://www.w3.org/2000/svg";
-function svgEl(tag, attrs) {
-  const el = document.createElementNS(SVG, tag);
-  Object.entries(attrs).forEach(([k, v]) => el.setAttribute(k, v));
-  return el;
-}
-
-function drawToran() {
-  const host = document.querySelector("#toran");
-  if (!host) return;
-  const width = host.clientWidth;
-  const height = host.clientHeight;
-  const small = width < 620;
-  const r = small ? 7.5 : 10;          // marigold radius
-  const step = r * 1.72;               // bead spacing down a strand
-  const gap = small ? 30 : 42;         // spacing between strands
-  const svg = svgEl("svg", { viewBox: `0 0 ${width} ${height}`, preserveAspectRatio: "xMidYMin meet" });
-
-  const defs = svgEl("defs", {});
-  [["mg-y", "#ffd65a", "#f6b21b", "#d98a07"], ["mg-o", "#ffa54a", "#ec7a1c", "#b9500c"]].forEach(([id, a, b, c]) => {
-    const g = svgEl("radialGradient", { id, cx: "42%", cy: "38%", r: "65%" });
-    g.append(svgEl("stop", { offset: "0%", "stop-color": a }), svgEl("stop", { offset: "60%", "stop-color": b }), svgEl("stop", { offset: "100%", "stop-color": c }));
-    defs.append(g);
-  });
-  svg.append(defs);
-
-  // Rope with a row of marigolds along it
-  svg.append(svgEl("rect", { x: 0, y: 0, width, height: r * .9, fill: "#7a3d12" }));
-
-  const count = Math.floor(width / gap) + 2;
-  const offset = (width - (count - 1) * gap) / 2;
-  for (let i = 0; i < count; i++) {
-    const x = offset + i * gap;
-    const long = i % 2 === 0;
-    const centre = 1 - Math.abs(i - (count - 1) / 2) / ((count - 1) / 2 || 1);
-    const beads = (long ? (small ? 5 : 6) : (small ? 3 : 4)) + Math.round(centre * (small ? 1 : 2));
-    const strand = svgEl("g", { class: "strand" });
-    strand.style.setProperty("--d", `${(Math.abs(i - count / 2) * 0.035).toFixed(2)}s`);
-    strand.style.setProperty("--r", `${i % 2 ? -4 : 5}deg`);
-    strand.append(svgEl("line", { x1: x, y1: 0, x2: x, y2: r + beads * step, stroke: "#5b2c0c", "stroke-width": 1.2 }));
-    for (let b = 0; b < beads; b++) {
-      const y = r * 1.1 + b * step;
-      const orange = (b + i) % 3 === 0;
-      strand.append(svgEl("circle", { cx: x, cy: y, r, fill: `url(#${orange ? "mg-o" : "mg-y"})` }));
-      // ruffled petal edge
-      strand.append(svgEl("circle", { cx: x, cy: y, r: r * .82, fill: "none", stroke: orange ? "#c25f10" : "#d99a0c", "stroke-width": r * .22, "stroke-dasharray": `${r * .18} ${r * .22}`, opacity: .55 }));
-    }
-    // mango leaf at the end of long strands
-    if (long) {
-      const ly = r * 1.1 + (beads - 1) * step + r * .8;
-      const lh = r * 2.6, lw = r * .95;
-      strand.append(svgEl("path", { d: `M${x} ${ly} C ${x + lw} ${ly + lh * .35}, ${x + lw * .6} ${ly + lh * .8}, ${x} ${ly + lh} C ${x - lw * .6} ${ly + lh * .8}, ${x - lw} ${ly + lh * .35}, ${x} ${ly} Z`, fill: "#5f7d2c" }));
-      strand.append(svgEl("line", { x1: x, y1: ly + 2, x2: x, y2: ly + lh - 3, stroke: "#88a64a", "stroke-width": 1 }));
-    }
-    svg.append(strand);
-  }
-  // top row of flowers on the rope, drawn last so it covers strand tops
-  for (let x = r * .6; x < width + r; x += r * 1.65) {
-    svg.append(svgEl("circle", { cx: x, cy: r * .2, r: r * .95, fill: `url(#${Math.round(x / (r * 1.65)) % 2 ? "mg-o" : "mg-y"})` }));
-  }
-  host.replaceChildren(svg);
-}
-
-let lastToranWidth = 0;
-function maybeRedrawToran() {
-  const w = document.querySelector("#toran")?.clientWidth || 0;
-  if (w !== lastToranWidth) { lastToranWidth = w; drawToran(); }
-}
-maybeRedrawToran();
-window.addEventListener("resize", () => {
-  clearTimeout(maybeRedrawToran.t);
-  maybeRedrawToran.t = setTimeout(maybeRedrawToran, 150);
-});
