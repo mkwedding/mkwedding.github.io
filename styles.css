@@ -1,35 +1,229 @@
 :root {
   --wallpaper-image: url("wallpaper.jpg");
   --wallpaper-opacity: .4;
-  --paper: rgba(255, 255, 255, .94);
-  --ink: #181a18;
-  --muted: #666a65;
-  --folder: #d8aa58;
+
+  /* Palette taken from the rangoli */
+  --aubergine: #2a1636;   /* purple powder: page base */
+  --aubergine-deep: #1c0e25;
+  --marigold: #f6b21b;    /* yellow marigold: accents, focus */
+  --saffron: #ec7a1c;     /* orange marigold */
+  --jasmine: #fbf3e2;     /* white flowers: text */
+  --kumkum: #c2245f;      /* pink petals: hover */
+  --leaf: #5f7d2c;        /* mango leaf */
+
+  --text-soft: rgba(251, 243, 226, .74);
+  --display: "Rozha One", Georgia, serif;
+  --body: "Hind", "Segoe UI", Arial, sans-serif;
 }
 
 * { box-sizing: border-box; }
-body { min-height: 100vh; margin: 0; color: var(--ink); font-family: Arial, Helvetica, sans-serif; background: #181a18; }
-body::before { content: ""; position: fixed; inset: 0; z-index: -1; background-image: var(--wallpaper-image); background-position: center; background-size: cover; opacity: var(--wallpaper-opacity); pointer-events: none; }
-.shell { width: min(1050px, calc(100% - 32px)); min-height: 100vh; margin: 0 auto; padding: clamp(48px,9vh,100px) 0; }
-h1 { margin: 0 0 28px; color: white; font-size: clamp(36px,7vw,68px); letter-spacing: -.04em; }
-.search-box { position: relative; z-index: 2; max-width: 620px; margin-bottom: 42px; }
-.search-box label { display: block; margin-bottom: 8px; color: rgba(255,255,255,.88); font-size: 14px; }
-.search-box input { width: 100%; height: 58px; border: 0; border-radius: 12px; padding: 0 18px; background: var(--paper); box-shadow: 0 10px 32px rgba(0,0,0,.22); color: var(--ink); font-size: 18px; outline: none; }
-.search-box input:focus { box-shadow: 0 0 0 3px rgba(255,255,255,.45), 0 10px 32px rgba(0,0,0,.22); }
-.suggestions { position: absolute; top: 86px; right: 0; left: 0; margin: 0; padding: 6px; list-style: none; border-radius: 12px; background: white; box-shadow: 0 14px 38px rgba(0,0,0,.25); }
-.suggestions button { width: 100%; border: 0; border-radius: 8px; padding: 12px; background: transparent; color: var(--ink); font-size: 16px; text-align: left; cursor: pointer; }
-.suggestions button:hover, .suggestions .active button { background: #efefeb; }
-.folder-grid { display: grid; grid-template-columns: repeat(4,minmax(0,1fr)); gap: 18px; }
-.folder { position: relative; min-height: 205px; padding: 24px 20px 18px; border: 1px solid rgba(255,255,255,.28); border-radius: 14px; background: var(--paper); box-shadow: 0 12px 32px rgba(0,0,0,.18); }
-.folder-shape { position: relative; width: 74px; height: 52px; margin-bottom: 22px; border-radius: 6px; background: var(--folder); }
-.folder-shape::before { content: ""; position: absolute; top: -10px; left: 0; width: 34px; height: 14px; border-radius: 5px 5px 0 0; background: var(--folder); }
-.folder h2 { margin: 0; overflow-wrap: anywhere; font-size: 19px; }
-.folder-open { position: absolute; inset: 0; display: flex; align-items: flex-end; padding: 18px 20px; border-radius: inherit; color: var(--muted); font-size: 13px; text-decoration: none; }
-.folder-open:hover { box-shadow: inset 0 0 0 2px white; }
-.folder-parts, .folder-status { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 16px; color: var(--muted); font-size: 13px; }
-.folder-parts a { border-bottom: 1px solid; color: inherit; text-decoration: none; }
-.folder-pending { opacity: .78; }
-.empty { padding: 36px 0; color: white; font-size: 16px; }
+
+body {
+  min-height: 100vh;
+  margin: 0;
+  color: var(--jasmine);
+  font-family: var(--body);
+  font-size: 17px;
+  line-height: 1.55;
+  background: var(--aubergine);
+  -webkit-font-smoothing: antialiased;
+}
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -2;
+  background-image: var(--wallpaper-image);
+  background-position: center;
+  background-size: cover;
+  opacity: var(--wallpaper-opacity);
+  pointer-events: none;
+}
+/* Gentle darkening toward the centre column so text stays legible over bright petals */
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  background: radial-gradient(ellipse 70% 60% at 50% 45%, rgba(28, 14, 37, .55), rgba(28, 14, 37, 0) 75%);
+  pointer-events: none;
+}
+
+.visually-hidden {
+  position: absolute; width: 1px; height: 1px; overflow: hidden;
+  clip: rect(0 0 0 0); white-space: nowrap;
+}
+
+/* ---------- Toran (marigold garland) ---------- */
+.toran {
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 190px;
+  overflow: hidden;
+  pointer-events: none;
+}
+.toran svg { display: block; width: 100%; height: 100%; }
+.toran .strand { transform-box: fill-box; transform-origin: 50% 0; }
+@media (prefers-reduced-motion: no-preference) {
+  .toran .strand { animation: sway 2.6s cubic-bezier(.3, .7, .3, 1) both; animation-delay: var(--d, 0s); }
+}
+@keyframes sway {
+  0%   { transform: rotate(var(--r, 5deg)); }
+  35%  { transform: rotate(calc(var(--r, 5deg) * -.55)); }
+  65%  { transform: rotate(calc(var(--r, 5deg) * .25)); }
+  100% { transform: rotate(0); }
+}
+
+/* ---------- Layout ---------- */
+.shell {
+  position: relative;
+  width: min(640px, calc(100% - 32px));
+  margin: 0 auto;
+  padding: 210px 0 96px;
+}
+
+.intro { text-align: center; margin-bottom: 40px; }
+.blessing {
+  margin: 0 0 6px;
+  color: var(--marigold);
+  font-family: var(--display);
+  font-size: 26px;
+  line-height: 1.3;
+}
+h1 {
+  margin: 0;
+  font-family: var(--display);
+  font-weight: 400;
+  font-size: clamp(46px, 10vw, 84px);
+  line-height: 1;
+  letter-spacing: -.01em;
+  text-shadow: 0 2px 24px rgba(28, 14, 37, .6);
+}
+.lede {
+  margin: 18px 0 0;
+  color: var(--text-soft);
+  font-size: 18px;
+}
+
+/* ---------- Search ---------- */
+.search-box {
+  position: relative;
+  z-index: 2;
+  max-width: 460px;
+  margin: 0 auto 56px;
+}
+.search-icon {
+  position: absolute;
+  left: 4px; top: 50%;
+  width: 22px; height: 22px;
+  transform: translateY(-50%);
+  fill: none;
+  stroke: var(--marigold);
+  stroke-width: 1.8;
+  stroke-linecap: round;
+}
+.search-box input {
+  width: 100%;
+  height: 56px;
+  padding: 0 8px 0 38px;
+  border: 0;
+  border-bottom: 1.5px solid rgba(251, 243, 226, .45);
+  border-radius: 0;
+  background: transparent;
+  color: var(--jasmine);
+  caret-color: var(--marigold);
+  font: 400 22px/1 var(--body);
+  outline: none;
+  transition: border-color .2s;
+  -webkit-appearance: none;
+  appearance: none;
+}
+.search-box input::placeholder { color: rgba(251, 243, 226, .5); }
+.search-box input::-webkit-search-cancel-button { filter: invert(1); opacity: .6; }
+.search-box input:focus { border-bottom-color: var(--marigold); }
+
+.suggestions {
+  position: absolute;
+  top: 64px; left: 0; right: 0;
+  margin: 0;
+  padding: 6px;
+  list-style: none;
+  border-radius: 10px;
+  background: var(--jasmine);
+  box-shadow: 0 18px 40px rgba(28, 14, 37, .45);
+}
+.suggestions button {
+  width: 100%;
+  border: 0;
+  border-radius: 6px;
+  padding: 11px 12px;
+  background: transparent;
+  color: var(--aubergine);
+  font: 500 17px var(--body);
+  text-align: left;
+  cursor: pointer;
+}
+.suggestions button:hover, .suggestions .active button { background: rgba(246, 178, 27, .28); }
+
+/* ---------- Album list ---------- */
+.albums { margin: 0; padding: 0; list-style: none; }
+.album {
+  position: relative;
+  display: flex;
+  align-items: baseline;
+  gap: 14px;
+  padding: 16px 2px;
+}
+.album-name {
+  font-family: var(--display);
+  font-size: 27px;
+  line-height: 1.2;
+  overflow-wrap: anywhere;
+}
+/* Dotted leader, like a string of tiny marigolds */
+.album-leader {
+  flex: 1;
+  min-width: 24px;
+  height: 4px;
+  align-self: center;
+  margin-top: 6px;
+  background-image: radial-gradient(circle, var(--marigold) 1.6px, transparent 2px);
+  background-size: 10px 4px;
+  background-repeat: repeat-x;
+  background-position: left center;
+  opacity: .7;
+}
+.album-links { display: flex; gap: 16px; flex-shrink: 0; }
+.album-links a, .album-status {
+  color: var(--marigold);
+  font-weight: 600;
+  font-size: 15px;
+  text-decoration: none;
+  white-space: nowrap;
+}
+.album-status { color: var(--text-soft); font-weight: 500; }
+.album-links a:hover { color: var(--jasmine); }
+/* Single-link albums: the whole row is the link */
+.album-single a::after { content: ""; position: absolute; inset: 0; }
+.album-single:hover .album-name { color: var(--marigold); }
+.album-single:hover .album-leader { opacity: 1; }
+.album a:focus-visible { outline: none; }
+.album:has(a:focus-visible) { outline: 2px solid var(--marigold); outline-offset: 2px; border-radius: 6px; }
+
+.empty {
+  margin: 0;
+  padding: 24px 0;
+  color: var(--text-soft);
+  text-align: center;
+}
 .empty[hidden] { display: none; }
-@media (max-width: 850px) { .folder-grid { grid-template-columns: repeat(3,minmax(0,1fr)); } }
-@media (max-width: 620px) { .shell { width: min(100% - 24px,1050px); padding-top: 42px; } .folder-grid { grid-template-columns: repeat(2,minmax(0,1fr)); gap: 12px; } .folder { min-height: 180px; padding: 20px 16px 16px; } .folder-open { padding: 16px; } }
+
+@media (max-width: 620px) {
+  .toran { height: 130px; }
+  .shell { padding-top: 150px; }
+  .blessing { font-size: 22px; }
+  .lede { font-size: 16px; }
+  .search-box { margin-bottom: 40px; }
+  .album { padding: 13px 0; gap: 10px; }
+  .album-name { font-size: 23px; }
+}
