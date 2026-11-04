@@ -65,6 +65,7 @@ function show(i) {
   viewerImg.width = p.w;
   viewerImg.height = p.h;
   viewerCount.textContent = `${current + 1} of ${photos.length}`;
+  if (window.mkTrack) window.mkTrack.photo();
   viewerDownload.href = largeUrl(p);
   viewerDownload.setAttribute("download", p.f);
   preload(current + 1);
