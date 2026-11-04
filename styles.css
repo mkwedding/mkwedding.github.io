@@ -333,3 +333,69 @@ body.viewing { overflow: hidden; }
 @media (prefers-reduced-motion: reduce) {
   .tile img, .viewer-stage img { transition: none; }
 }
+
+/* ---------- Live pill (bottom corner) ---------- */
+.live-pill {
+  position: fixed;
+  left: max(16px, env(safe-area-inset-left));
+  bottom: max(16px, env(safe-area-inset-bottom));
+  z-index: 5;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 9px 16px 9px 13px;
+  border-radius: 999px;
+  color: var(--jasmine);
+  font-size: 13px;
+  line-height: 1;
+  white-space: nowrap;
+  background: rgba(40, 16, 4, .45);
+  border: 1px solid rgba(251, 243, 226, .12);
+  -webkit-backdrop-filter: blur(20px) saturate(160%);
+  backdrop-filter: blur(20px) saturate(160%);
+  box-shadow: 0 8px 30px rgba(20, 8, 2, .35);
+  pointer-events: none;
+  user-select: none;
+}
+.live-dot {
+  width: 7px;
+  height: 7px;
+  flex: none;
+  border-radius: 50%;
+  background: var(--saffron);
+  box-shadow: 0 0 0 0 rgba(242, 138, 42, .6);
+  animation: live-pulse 2.4s ease-out infinite;
+}
+@keyframes live-pulse {
+  0% { box-shadow: 0 0 0 0 rgba(242, 138, 42, .55); }
+  70%, 100% { box-shadow: 0 0 0 8px rgba(242, 138, 42, 0); }
+}
+.live-faces {
+  position: relative;
+  display: block;
+  height: 14px;
+  width: var(--face-w, auto);
+  transition: width .6s cubic-bezier(.2, .7, .2, 1);
+}
+.live-face {
+  position: absolute;
+  left: 0;
+  top: 0;
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+  opacity: 0;
+  transform: translateY(6px);
+  transition: opacity .5s ease, transform .5s ease;
+}
+.live-face.active { opacity: 1; transform: none; }
+.live-label { color: var(--text-soft); font-weight: 500; }
+.live-value { font-weight: 600; font-variant-numeric: tabular-nums; white-space: pre; }
+.live-sep { color: var(--text-soft); margin: 0 2px; }
+/* Leave room so the pill never sits on top of the last card */
+.shell { padding-bottom: 120px; }
+body.viewing .live-pill { display: none; }
+@media (prefers-reduced-motion: reduce) {
+  .live-dot { animation: none; }
+  .live-face, .live-faces { transition: none; }
+}
