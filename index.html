@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="Find your wedding photo album.">
+    <meta name="description" content="Wedding photos, by event.">
     <meta name="robots" content="noindex, nofollow">
     <meta name="theme-color" content="#3a1806">
     <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
@@ -11,24 +11,17 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap">
-    <link rel="stylesheet" href="styles.css?v=20261104-5">
-    <script src="app.js?v=20261104-5" defer></script>
+    <link rel="stylesheet" href="styles.css?v=20261104-6">
+    <script src="app.js?v=20261104-6" defer></script>
   </head>
   <body>
     <main class="shell">
       <header class="intro">
         <h1>Wedding photos</h1>
       </header>
-      <div class="search-box">
-        <label for="name-search" class="visually-hidden">Search by name</label>
-        <svg class="search-icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5"/><path d="m15.5 15.5 5 5"/></svg>
-        <input id="name-search" type="search" placeholder="Your name" autocomplete="off"
-          role="combobox" aria-autocomplete="list" aria-controls="suggestions" aria-expanded="false">
-        <ul id="suggestions" class="suggestions" role="listbox" hidden></ul>
-      </div>
-      <section aria-label="Photo albums">
+      <section aria-label="Events">
         <ul id="folder-grid" class="albums"></ul>
-        <p id="empty" class="empty">Albums will appear here once the photos are ready.</p>
+        <p id="empty" class="empty">Photos will appear here soon.</p>
       </section>
     </main>
   </body>
